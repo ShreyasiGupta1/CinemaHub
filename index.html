@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CINEMAHUB</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgba(192, 10, 150, 0.133);
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: #1c1c1c;
+            padding: 20px;
+        }
+        #search {
+            width: 50%;
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+        }
+        .movie-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 20px;
+        }
+        .movie {
+            background: #222;
+            margin: 10px;
+            padding: 15px;
+            border-radius: 10px;
+            width: 200px;
+            text-align: center;
+        }
+        .movie img {
+            width: 100%;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>CINEMAHUB</h1>
+        <input type="text" id="search" placeholder="Search for a movie...">
+    </header>
+    
+    <div class="movie-container" id="movie-container">
+        <!-- Movies will be added dynamically -->
+    </div>
+    
+    <script>
+        const movies = [
+            { title: "movies dates", image: "i1.png" },
+            { title: "Romantics", image: "i4.webp" },
+            { title: "Bollywood", image: "i2.png" },
+            { title: "Hollywood", image: "i3.jpg"}
+            
+        ];
+        
+        const movieContainer = document.getElementById("movie-container");
+        
+        function displayMovies(filter = "") {
+            movieContainer.innerHTML = "";
+            movies.filter(movie => movie.title.toLowerCase().includes(filter.toLowerCase()))
+                  .forEach(movie => {
+                      const movieElement = document.createElement("div");
+                      movieElement.classList.add("movie");
+                      movieElement.innerHTML = `
+                          <img src="${movie.image}" alt="${movie.title}">
+                          <h3>${movie.title}</h3>
+                      `;
+                      movieContainer.appendChild(movieElement);
+                  });
+        }
+        
+        document.getElementById("search").addEventListener("input", (e) => {
+            displayMovies(e.target.value);
+        });
+        
+        displayMovies();
+    </script>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: #1c1c1c;
+            padding: 20px;
+            font-size: 24px;
+        }
+
+        a {
+            color: #ff4757;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Movie Details Styling */
+        .movie-details-container {
+            width: 80%;
+            margin: 20px auto;
+            background: #222;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.1);
+        }
+
+        #movie-details img {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        #movie-details h2 {
+            margin-top: 10px;
+        }
+
+        #backButton, #addWatchlist {
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #ff4757;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        #backButton:hover, #addWatchlist:hover {
+            background-color: #e84118;
+        }
+
+        /* Ratings & Reviews */
+        .ratings, .reviews {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .stars {
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .star:hover {
+            color: gold;
+        }
+
+        textarea {
+            width: 100%;
+            max-width: 400px;
+            height: 60px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #ff4757;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Similar Movies */
+        .similar-movies {
+            margin-top: 20px;
+        }
+
+        #similar-movies-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .similar-movie {
+            width: 100px;
+            text-align: center;
+        }
+
+        .similar-movie img {
+            width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>CinemaHub</h1>
+        <a href="index.html">🏠 Home</a>
+    </header>
+
+    <div class="movie-details-container">
+        <div id="movie-details">
+            <!-- Movie details will be loaded here dynamically -->
+        </div>
+
+        <h3>Watch Trailer</h3>
+        <iframe id="trailer" width="560" height="315" frameborder="0" allowfullscreen></iframe>
+
+        <button id="addWatchlist" onclick="addToWatchlist()">➕ Add to Watchlist</button>
+        <button id="backButton" onclick="goBack()">⬅ Back to Movies</button>
+    </div>
+
+    <div class="ratings">
+        <h3>Rate This Movie</h3>
+        <div class="stars">
+            <span class="star" data-value="1">⭐</span>
+            <span class="star" data-value="2">⭐</span>
+            <span class="star" data-value="3">⭐</span>
+            <span class="star" data-value="4">⭐</span>
+            <span class="star" data-value="5">⭐</span>
+        </div>
+        <p id="rating-value">Your Rating: 0</p>
+    </div>
+
+    <div class="reviews">
+        <h3>User Reviews</h3>
+        <textarea id="reviewText" placeholder="Write your review..."></textarea>
+        <button onclick="submitReview()">Submit</button>
+        <div id="review-list"></div>
+    </div>
+
+    <div class="similar-movies">
+        <h3>Similar Movies</h3>
+        <div id="similar-movies-container"></div>
+    </div>
+
+    <script>
+        // Sample movie data
+        const movies = [
+            { id: 1, title: "Romantics", image: "i2.png", description: "A mind-bending thriller about dreams within dreams.", trailer: "https://www.youtube.com/embed/YoHD9XEInc0" },
+            { id: 2, title: "Bollywood", image: "i4.webp", description: "A space adventure exploring love and time.", trailer: "https://www.youtube.com/embed/zSWdZVtXT7E" },
+            { id: 3, title: "Hollywood", image: "i3.jpg", description: "A masterpiece of superhero cinema with deep storytelling.", trailer: "https://www.youtube.com/embed/EXeTwQWrcwY" }
+        ];
+
+        // Display movie details
+        function displayMovieDetails() {
+            const params = new URLSearchParams(window.location.search);
+            const movieId = params.get("id");
+
+            const movie = movies.find(m => m.id == movieId);
+
+            if (!movie) {
+                document.getElementById("movie-details").innerHTML = "<h2>Movie not found</h2>";
+                return;
+            }
+
+            document.getElementById("movie-details").innerHTML = `
+                <img src="${movie.image}" alt="${movie.title}">
+                <h2>${movie.title}</h2>
+                <p>${movie.description}</p>
+            `;
+            document.getElementById("trailer").src = movie.trailer;
+        }
+
+        // Go back function
+        function goBack() {
+            window.location.href = "index.html";
+        }
+
+        // Ratings
+        document.querySelectorAll(".star").forEach(star => {
+            star.addEventListener("click", function () {
+                let rating = this.getAttribute("data-value");
+                document.getElementById("rating-value").innerText = `Your Rating: ${rating}`;
+            });
+        });
+
+        // Review Submission
+        function submitReview() {
+            let reviewText = document.getElementById("reviewText").value;
+            if (reviewText.trim() === "") {
+                alert("Please write a review!");
+                return;
+            }
+            let reviewList = document.getElementById("review-list");
+            let reviewElement = document.createElement("p");
+            reviewElement.innerText = reviewText;
+            reviewList.appendChild(reviewElement);
+            document.getElementById("reviewText").value = "";
+        }
+
+        // Similar Movies
+        function displaySimilarMovies() {
+            let similarMoviesContainer = document.getElementById("similar-movies-container");
+            let currentMovieId = parseInt(new URLSearchParams(window.location.search).get("id"));
+
+            movies.filter(m => m.id !== currentMovieId).forEach(movie => {
+                let movieElement = document.createElement("div");
+                movieElement.classList.add("similar-movie");
+                movieElement.innerHTML = `
+                    <img src="${movie.image}" alt="${movie.title}" onclick="location.href='movie-details.html?id=${movie.id}'">
+                    <p>${movie.title}</p>
+                `;
+                similarMoviesContainer.appendChild(movieElement);
+            });
+        }
+
+        // Watchlist
+        function addToWatchlist() {
+            const params = new URLSearchParams(window.location.search);
+            const movieId = params.get("id");
+
+            let watchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
+            if (!watchlist.includes(movieId)) {
+                watchlist.push(movieId);
+                localStorage.setItem("watchlist", JSON.stringify(watchlist));
+                alert("Movie added to watchlist!");
+            } else {
+                alert("Already in watchlist!");
+            }
+        }
+
+        // Load movie details and similar movies
+        displayMovieDetails();
+        displaySimilarMovies();
+    </script>
+
+    
+</body>
+</html>
